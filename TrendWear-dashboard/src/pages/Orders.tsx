@@ -1,4 +1,4 @@
-import { ArrowLeft } from 'lucide-react';
+import {ArrowLeft, Eye} from 'lucide-react';
 import { Order } from '../types';
 
 interface OrdersPageProps {
@@ -7,16 +7,6 @@ interface OrdersPageProps {
 }
 
 export function OrdersPage({ orders, onBack }: OrdersPageProps) {
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'completed':
-        return 'bg-green-100 text-green-800 ring-green-600/20';
-      case 'cancelled':
-        return 'bg-red-100 text-red-800 ring-red-600/20';
-      default:
-        return 'bg-yellow-100 text-yellow-800 ring-yellow-600/20';
-    }
-  };
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
@@ -35,55 +25,107 @@ export function OrdersPage({ orders, onBack }: OrdersPageProps) {
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">
               <thead>
-                <tr className="bg-gray-50">
-                  <th scope="col" className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Order Details
-                  </th>
-                  <th scope="col" className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Products
-                  </th>
-                  <th scope="col" className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Status
-                  </th>
-                  <th scope="col" className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Total
-                  </th>
-                </tr>
+              <tr className="bg-gray-50">
+                <th scope="col"
+                    className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Customer Details
+                </th>
+                <th scope="col"
+                    className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Order Date
+                </th>
+                <th scope="col"
+                    className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Products
+                </th>
+                <th scope="col"
+                    className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  address
+                </th>
+                <th scope="col"
+                    className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  city
+                </th>
+                <th scope="col"
+                    className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  postal code
+                </th>
+                <th scope="col"
+                    className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Total
+                </th>
+                <th scope="col"
+                    className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  View
+                </th>
+              </tr>
               </thead>
               <tbody className="divide-y divide-gray-200 bg-white">
-                {orders.map((order) => (
-                  <tr key={order.id} className="hover:bg-gray-50 transition-colors">
+              {orders?.map((order) => (
+                  <tr className="hover:bg-gray-50 transition-colors">
                     <td className="px-6 py-4">
-                      <div className="text-sm font-medium text-gray-900">#{order.id}</div>
-                      <div className="text-sm text-gray-500">{order.customerName}</div>
+                      {/*<div className="text-sm font-medium text-gray-900">#{order.id}</div>*/}
+                      <div
+                          className="text-sm text-gray-500">{order.firstName + " " + order.lastName}</div>
+                      <div className="text-sm text-gray-400 mt-2">{order.email}</div>
+                    </td>
+
+                    <td className="px-6 py-4">
                       <div className="text-xs text-gray-400">
                         {new Date(order.createdAt).toLocaleDateString()}
                       </div>
                     </td>
+
                     <td className="px-6 py-4">
                       <div className="space-y-1">
-                        {order.products.map((product) => (
-                          <div key={product.productId} className="text-sm text-gray-900">
-                            <span className="font-medium">{product.quantity}x</span> {product.productName}
-                            <div className="text-xs text-gray-500">
-                              {product.variation.size}
-                            </div>
-                          </div>
-                        ))}
+                        <div className="space-y-3">
+                          {order.products.map((product) => (
+                              <div className="text-sm text-gray-900">
+                                                         <span
+                                                             className="bg-green-100 rounded-full px-2 py-1 font-medium">
+                                                               {product.size + " / Qty - " + product.quantity}
+                                                         </span>
+
+                              </div>
+                          ))}
+                        </div>
                       </div>
                     </td>
                     <td className="px-6 py-4">
-                      <span className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset ${getStatusColor(order.status)}`}>
-                        {order.status}
+                      <span className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium `}>
+                        {order.address}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4">
+                      <span className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium `}>
+                        {order.city}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 text-left">
+                      <span className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium `}>
+                        {order.postalCode}
                       </span>
                     </td>
                     <td className="px-6 py-4">
                       <div className="text-sm font-medium text-gray-900">
-                        ${order.total.toFixed(2)}
+                        LKR {order.totalPrice.toFixed(2)}
                       </div>
                     </td>
+
+                    <td className="px-6 py-4 text-center">
+                      <button
+                          // onClick={() => onView(product)}
+                          className="text-gray-600 hover:text-gray-900"
+                          title="View Details"
+                      >
+                        <Eye className="w-5 h-5"/>
+                      </button>
+                    </td>
                   </tr>
-                ))}
+
+              ))}
+
+
               </tbody>
             </table>
           </div>

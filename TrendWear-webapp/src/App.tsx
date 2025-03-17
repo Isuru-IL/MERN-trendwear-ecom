@@ -10,6 +10,8 @@ import CartPage from './pages/CartPage';
 import CheckoutPage from './pages/CheckoutPage';
 import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
+import Login from "./auth/Login.tsx";
+import Register from "./auth/Register.tsx";
 
 function App() {
   return (
@@ -26,6 +28,8 @@ function App() {
               <Route path="/checkout" element={<CheckoutPage />} />
               <Route path="/about" element={<AboutPage />} />
               <Route path="/contact" element={<ContactPage />} />
+              <Route path="/login" element={<Login/>} />
+              <Route path="/register" element={<Register/>} />
             </Routes>
           </main>
           <Footer />

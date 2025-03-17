@@ -6,6 +6,7 @@ import {useCart} from '../context/CartContext';
 import toast from 'react-hot-toast';
 import {fetchProducts, fetchProductsById} from "../api/Product.ts";
 import {Product} from "../types";
+import SingleProductSkeleton from "../components/skeltons/SingleProductSkeleton.tsx";
 
 // const recommendations = Array.from({length: 4}, (_, i) => ({
 //     id: i + 2,
@@ -66,6 +67,7 @@ export default function ProductPage() {
             return;
         }
 
+        let productId=id
         id=id+selectedSize;
 
 
@@ -74,7 +76,8 @@ export default function ProductPage() {
             quantity,
             selectedSize,
             price,
-            id
+            id,
+            productId
 
         });
 
@@ -98,115 +101,119 @@ export default function ProductPage() {
 
     return (
         <div className="container mx-auto px-4 py-32">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {/* Product Images */}
-                <div className="space-y-4">
-                    <div className="aspect-square relative overflow-hidden rounded-lg">
-                        {/*<img*/}
-                        {/*    // src={product?.images[0]}*/}
-                        {/*    src={product?.images[selectedImage]}*/}
-                        {/*    alt={product?.name}*/}
-                        {/*    className="absolute inset-0 w-full h-full object-cover"*/}
-                        {/*/>*/}
+            {product ?
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    {/* Product Images */}
+                    <div className="space-y-4">
+                        <div className="aspect-square relative overflow-hidden rounded-lg">
+                            {/*<img*/}
+                            {/*    // src={product?.images[0]}*/}
+                            {/*    src={product?.images[selectedImage]}*/}
+                            {/*    alt={product?.name}*/}
+                            {/*    className="absolute inset-0 w-full h-full object-cover"*/}
+                            {/*/>*/}
 
-                        {product?.images[selectedImage] ? (
-                            <img
-                                src={product?.images[selectedImage]}
-                                alt={product?.name}
-                                className="absolute inset-0 w-full h-full object-cover"
-                            />
-                        ) : (
-                            <div
-                                className="w-full h-full bg-gray-100 animate-pulse bg-gradient-to-r from-gray-300 via-gray-400 to-gray-300">
-                                {/* Optional content to enhance the skeleton experience */}
-                            </div>)}
-                    </div>
-                    <div className="grid grid-cols-4 gap-4">
-                        {product?.images.map((image, index) => (
-                            <button
-                                key={index}
-                                onClick={() => setSelectedImage(index)}
-                                className={`aspect-square relative overflow-hidden rounded-lg ${
-                                    selectedImage === index ? 'ring-2 ring-black' : ''
-                                }`}
-                            >
+                            {product?.images[selectedImage] ? (
                                 <img
-                                    src={image}
-                                    alt={`${product?.name} ${index + 1}`}
+                                    src={product?.images[selectedImage]}
+                                    alt={product?.name}
                                     className="absolute inset-0 w-full h-full object-cover"
                                 />
-                            </button>
-                        ))}
-                    </div>
-                </div>
-
-                {/* Product Info */}
-                <div className="space-y-6">
-                    <div>
-                        <h1 className="text-3xl font-bold">{product?.name}</h1>
-                        <p className="text-2xl mt-2">
-                            {/*LKR {price === 0 ? product?.variations[0].price.toFixed(2).toLocaleString():price}*/}
-                            LKR {price === '0' ? product?.variations[0].price.toFixed(2) : price}
-                        </p>
-                    </div>
-
-                    <div>
-                        <h3 className="font-semibold mb-2">Size</h3>
-                        <div className="grid grid-cols-5 gap-2">
-                            {product?.variations?.map(variation => (
+                            ) : (
+                                <div
+                                    className="w-full h-full bg-gray-100 animate-pulse bg-gradient-to-r from-gray-300 via-gray-400 to-gray-300">
+                                    {/* Optional content to enhance the skeleton experience */}
+                                </div>)}
+                        </div>
+                        <div className="grid grid-cols-4 gap-4">
+                            {product?.images.map((image, index) => (
                                 <button
-                                    // key={variation.id}
-                                    onClick={() => setSelectedSizeOnClick(variation.size)}
-                                    className={`py-2 border rounded ${
-                                        selectedSize === variation.size
-                                            ? 'bg-black text-white border-black'
-                                            : 'border-gray-200 hover:border-black'
+                                    key={index}
+                                    onClick={() => setSelectedImage(index)}
+                                    className={`aspect-square relative overflow-hidden rounded-lg ${
+                                        selectedImage === index ? 'ring-2 ring-black' : ''
                                     }`}
                                 >
-                                    {variation.size}
+                                    <img
+                                        src={image}
+                                        alt={`${product?.name} ${index + 1}`}
+                                        className="absolute inset-0 w-full h-full object-cover"
+                                    />
                                 </button>
                             ))}
                         </div>
                     </div>
 
+                    {/* Product Info */}
+                    <div className="space-y-6">
+                        <div>
+                            <h1 className="text-3xl font-bold">{product?.name}</h1>
+                            <p className="text-2xl mt-2">
+                                {/*LKR {price === 0 ? product?.variations[0].price.toFixed(2).toLocaleString():price}*/}
+                                LKR {price === '0' ? product?.variations[0].price.toFixed(2) : price}
+                            </p>
+                        </div>
 
-                    <div>
-                        <h3 className="font-semibold mb-2">Quantity</h3>
-                        <div className="flex items-center space-x-4">
+                        <div>
+                            <h3 className="font-semibold mb-2">Size</h3>
+                            <div className="grid grid-cols-5 gap-2">
+                                {product?.variations?.map(variation => (
+                                    <button
+                                        // key={variation.id}
+                                        onClick={() => setSelectedSizeOnClick(variation.size)}
+                                        className={`py-2 border rounded ${
+                                            selectedSize === variation.size
+                                                ? 'bg-black text-white border-black'
+                                                : 'border-gray-200 hover:border-black'
+                                        }`}
+                                    >
+                                        {variation.size}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+
+
+                        <div>
+                            <h3 className="font-semibold mb-2">Quantity</h3>
+                            <div className="flex items-center space-x-4">
+                                <button
+                                    onClick={() => setQuantity(q => Math.max(1, q - 1))}
+                                    className="p-2 border rounded-full hover:bg-gray-100"
+                                >
+                                    <Minus size={20}/>
+                                </button>
+                                <span className="text-xl">{quantity}</span>
+                                <button
+                                    onClick={() => setQuantity(q => q + 1)}
+                                    className="p-2 border rounded-full hover:bg-gray-100"
+                                >
+                                    <Plus size={20}/>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div className="flex space-x-4">
                             <button
-                                onClick={() => setQuantity(q => Math.max(1, q - 1))}
-                                className="p-2 border rounded-full hover:bg-gray-100"
+                                onClick={handleAddToCart}
+                                className="flex-1 bg-black text-white py-3 rounded-full hover:bg-gray-900 transition-colors"
                             >
-                                <Minus size={20}/>
+                                Add to Cart
                             </button>
-                            <span className="text-xl">{quantity}</span>
-                            <button
-                                onClick={() => setQuantity(q => q + 1)}
-                                className="p-2 border rounded-full hover:bg-gray-100"
-                            >
-                                <Plus size={20}/>
-                            </button>
+                            {/*<button className="p-3 border rounded-full hover:bg-gray-100">*/}
+                            {/*    <Heart size={24}/>*/}
+                            {/*</button>*/}
+                        </div>
+
+                        <div>
+                            <h3 className="font-semibold mb-2">Description</h3>
+                            <p className="text-gray-600">{product?.description}</p>
                         </div>
                     </div>
-
-                    <div className="flex space-x-4">
-                        <button
-                            onClick={handleAddToCart}
-                            className="flex-1 bg-black text-white py-3 rounded-full hover:bg-gray-900 transition-colors"
-                        >
-                            Add to Cart
-                        </button>
-                        {/*<button className="p-3 border rounded-full hover:bg-gray-100">*/}
-                        {/*    <Heart size={24}/>*/}
-                        {/*</button>*/}
-                    </div>
-
-                    <div>
-                        <h3 className="font-semibold mb-2">Description</h3>
-                        <p className="text-gray-600">{product?.description}</p>
-                    </div>
                 </div>
-            </div>
+                :
+                <SingleProductSkeleton/>
+            }
 
             {/* Recommendations */}
             <div className="mt-20">

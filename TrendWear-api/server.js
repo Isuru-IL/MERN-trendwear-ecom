@@ -4,8 +4,9 @@ const bodyParser = require('body-parser');
 const cors = require("cors");
 
 
-// const authRoutes = require('./routes/authRoutes');
+const authRouter = require('./routes/AuthRoutes');
 var productRouter = require('./routes/ProductRoutes');
+var orderRouter = require('./routes/OrderRoutes');
 
 
 const app = express();
@@ -19,8 +20,9 @@ var DBConnection = require('./db/DBConnection');
 DBConnection();
 
 //routes
+app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/products', productRouter);
-
+app.use('/api/v1/orders', orderRouter);
 
 const PORT = process.env.PORT || 3003;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

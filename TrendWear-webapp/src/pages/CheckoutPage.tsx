@@ -1,44 +1,46 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+/*import { useNavigate } from 'react-router-dom';*/
 import { motion } from 'framer-motion';
 import { useCart } from '../context/CartContext';
-import toast from 'react-hot-toast';
+import {saveOrder} from "../api/Order.ts";
+import toast from "react-hot-toast";
 
 export default function CheckoutPage() {
-  const navigate = useNavigate();
-  const { cartItems, clearCart } = useCart();
-  const [formData, setFormData] = useState({
-    email: '',
-    firstName: '',
-    lastName: '',
-    address: '',
-    city: '',
-    country: '',
-    postalCode: '',
-    cardNumber: '',
-    cardExpiry: '',
-    cardCvc: ''
-  });
+  /*const navigate = useNavigate();*/
+  const { cartItems } = useCart();
+
+  const [email, setEmail] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [address, setAddress] = useState('');
+  const [postalCode, setPostalCode] = useState('');
+  const [city, setCity] = useState('');
 
   const subtotal = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
   const shipping = subtotal > 100 ? 0 : 10;
   const total = subtotal + shipping;
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Here you would typically process the payment and create the order
-    toast.success('Order placed successfully!');
-    clearCart();
-    navigate('/');
+
+    let totalPrice = total;
+
+    let products = cartItems.map(item  => ({
+      productId: item.productId,
+      size: item.selectedSize,
+      quantity: item.quantity
+    }));
+    let isSaved = await saveOrder({email, firstName, lastName, address, city, postalCode, products, totalPrice});
+
+    if (isSaved) {
+      toast.success('Order placed successfully!');
+      /*clearCart();
+      navigate('/');*/
+    }
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-32">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <motion.div
           initial={{ opacity: 0, x: -20 }}
@@ -55,8 +57,8 @@ export default function CheckoutPage() {
                   type="email"
                   id="email"
                   name="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   required
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black"
                 />
@@ -71,8 +73,8 @@ export default function CheckoutPage() {
                     type="text"
                     id="firstName"
                     name="firstName"
-                    value={formData.firstName}
-                    onChange={handleInputChange}
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
                     required
                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black"
                   />
@@ -85,8 +87,8 @@ export default function CheckoutPage() {
                     type="text"
                     id="lastName"
                     name="lastName"
-                    value={formData.lastName}
-                    onChange={handleInputChange}
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
                     required
                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black"
                   />
@@ -101,8 +103,8 @@ export default function CheckoutPage() {
                   type="text"
                   id="address"
                   name="address"
-                  value={formData.address}
-                  onChange={handleInputChange}
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
                   required
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black"
                 />
@@ -117,8 +119,8 @@ export default function CheckoutPage() {
                     type="text"
                     id="city"
                     name="city"
-                    value={formData.city}
-                    onChange={handleInputChange}
+                    value={city}
+                    onChange={(e) => setCity(e.target.value)}
                     required
                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black"
                   />
@@ -131,8 +133,8 @@ export default function CheckoutPage() {
                     type="text"
                     id="postalCode"
                     name="postalCode"
-                    value={formData.postalCode}
-                    onChange={handleInputChange}
+                    value={postalCode}
+                    onChange={(e) => setPostalCode(e.target.value)}
                     required
                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black"
                   />
@@ -140,7 +142,7 @@ export default function CheckoutPage() {
               </div>
             </div>
 
-            <div className="border-t pt-6">
+            {/*<div className="border-t pt-6">
               <h2 className="text-2xl font-bold mb-6">Payment Information</h2>
               <div className="space-y-4">
                 <div>
@@ -190,7 +192,7 @@ export default function CheckoutPage() {
                   </div>
                 </div>
               </div>
-            </div>
+            </div>*/}
 
             <button
               type="submit"
@@ -207,11 +209,11 @@ export default function CheckoutPage() {
             
             <div className="space-y-4">
               {cartItems.map(item => (
-                <div key={`${item.id}-${item.selectedSize}-${item.selectedColor}`} className="flex justify-between">
+                <div key={`${item.id}-${item.selectedSize}`} className="flex justify-between">
                   <div>
                     <p className="font-medium">{item.name}</p>
                     <p className="text-sm text-gray-600">
-                      {item.selectedSize} · {item.selectedColor} · Qty: {item.quantity}
+                      {item.selectedSize} / Qty: {item.quantity}
                     </p>
                   </div>
                   <p className="font-medium">${(item.price * item.quantity).toFixed(2)}</p>

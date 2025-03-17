@@ -2,18 +2,18 @@ import {useEffect, useState} from 'react';
 import {ArrowLeft, Eye, Pencil, Trash2} from 'lucide-react';
 import {Product} from '../types';
 import {UpdateProductModal} from '../components/UpdateProductModal';
-import toast, {Toaster} from 'react-hot-toast';
-import {deleteProduct, fetchProducts} from "../api/product.ts";
+import {Toaster} from 'react-hot-toast';
+import {deleteProduct} from "../api/product.ts";
 
 interface ProductsPageProps {
-    // products: Product[];
+    products: Product[];
     onBack: () => void;
 }
 
- export function ProductsPage({onBack}: ProductsPageProps) {
+ export function ProductsPage({products,onBack}: ProductsPageProps) {
     const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
     const [showUpdateModal, setShowUpdateModal] = useState(false);
-    const [products, setProducts] = useState<Product[]>();
+    /*const [products, setProducts] = useState<Product[]>();
 
 
     //get all products
@@ -23,7 +23,7 @@ interface ProductsPageProps {
              toast.success('Product loaded successfully!')
              setProducts(data)
          }
-    }
+    }*/
 
     //delete product
     const handleDelete = async (product: Product) => {
@@ -31,13 +31,13 @@ interface ProductsPageProps {
             // onDelete(product.id);
             const result = await deleteProduct(product._id)
             console.log(result)
-            await fetchAll()
+            //await fetchAll()
         }
     };
 
 
     useEffect(() => {
-        fetchAll();
+        //fetchAll();
 
     }, []);
 

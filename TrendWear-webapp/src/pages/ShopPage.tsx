@@ -4,6 +4,7 @@ import {motion} from 'framer-motion';
 import {ChevronDown, Filter} from 'lucide-react';
 import {FilterState, Product} from '../types';
 import {fetchProducts} from "../api/Product.ts";
+import ProductSkeleton from "../components/skeltons/ProductSkeleton.tsx";
 
 export default function ShopPage() {
     const [isFilterOpen, setIsFilterOpen] = useState(false);
@@ -131,27 +132,31 @@ export default function ShopPage() {
 
                 {/* Product Grid */}
                 <div className="flex-1">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {filteredProducts.map(product => (
-                            <motion.div
-                                key={product._id}
-                                whileHover={{y: -10}}
-                                className="group"
-                            >
-                                <Link to={`/product/${product._id}`}>
-                                    <div className="aspect-[3/4] relative overflow-hidden rounded-lg mb-4">
-                                        <img
-                                            src={product.images[0]}
-                                            alt={product.name}
-                                            className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                                        />
-                                    </div>
-                                    <h3 className="font-semibold">{product.name}</h3>
-                                    <p className="text-gray-600">${product.variations[0].price.toFixed(2)}</p>
-                                </Link>
-                            </motion.div>
-                        ))}
-                    </div>
+                    {products.length > 0 ?
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {filteredProducts.map(product => (
+                                <motion.div
+                                    key={product._id}
+                                    whileHover={{y: -10}}
+                                    className="group"
+                                >
+                                    <Link to={`/product/${product._id}`}>
+                                        <div className="aspect-[3/4] relative overflow-hidden rounded-lg mb-4">
+                                            <img
+                                                src={product.images[0]}
+                                                alt={product.name}
+                                                className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                            />
+                                        </div>
+                                        <h3 className="font-semibold">{product.name}</h3>
+                                        <p className="text-gray-600">${product.variations[0].price.toFixed(2)}</p>
+                                    </Link>
+                                </motion.div>
+                            ))}
+                        </div>
+                        :
+                        <ProductSkeleton/>
+                    }
                 </div>
             </div>
         </div>

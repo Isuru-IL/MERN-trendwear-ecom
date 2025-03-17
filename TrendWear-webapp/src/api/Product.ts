@@ -1,9 +1,15 @@
 import {Product} from "../types";
 import axios from "axios";
 
+const token = localStorage.getItem('token');
+
 export async function fetchProducts(): Promise<Product[]> {
     try {
-        const response = await axios.get<Product[]>('http://localhost:3003/api/v1/products/all');
+        const response = await axios.get<Product[]>('http://localhost:3003/api/v1/products/all',{
+            headers: {
+                'Authorization': token ? `Bearer ${token}` : ''
+            }
+        });
         return response.data
     } catch (error) {
         // @ts-ignore
@@ -14,7 +20,11 @@ export async function fetchProducts(): Promise<Product[]> {
 
 export async function fetchProductsById(id:any): Promise<Product> {
     try {
-        const response = await axios.get<Product>(`http://localhost:3003/api/v1/products/getProductById/${id}`);
+        const response = await axios.get<Product>(`http://localhost:3003/api/v1/products/getProductById/${id}`, {
+            headers: {
+                'Authorization': token ? `Bearer ${token}` : ''
+            }
+        });
         console.log(response.data)
         return response.data;
     } catch (error) {

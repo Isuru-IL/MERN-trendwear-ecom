@@ -34,10 +34,32 @@ export interface CartItem extends Product {
   selectedSize: string;
   price:number;
   id: number;
+  productId:string;
 }
 
 export interface FilterState {
   sizes: string[];
   priceRange: [number, number];
   category: string;
+}
+
+export interface Order {
+  email:string;
+  firstName: string;
+  lastName: string;
+  address:string;
+  city:string;
+  postalCode:string;
+  products: {
+    productId: string;
+    quantity: number;
+    size: string;
+  }[];
+  totalPrice:number;
+}
+
+export interface Auth {
+  name: string;
+  email: string;
+  role: string;
 }
