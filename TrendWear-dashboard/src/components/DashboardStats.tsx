@@ -1,6 +1,5 @@
-import React from 'react';
 import { ShoppingBag, Package, CheckCircle, DollarSign } from 'lucide-react';
-import { Order, Product } from '../types';
+import { Order } from '../types';
 
 interface StatsProps {
   productsCount: number;

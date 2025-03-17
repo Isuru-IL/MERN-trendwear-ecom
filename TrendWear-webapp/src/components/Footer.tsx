@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { Facebook, Instagram, Twitter } from 'lucide-react';
 
@@ -9,7 +8,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Brand Section */}
           <div className="space-y-4">
-            <h2 className="text-2xl font-bold">FASHION</h2>
+            <h2 className="text-2xl font-bold">TRENDWEAR</h2>
             <p className="text-gray-400">
               Discover the latest trends in fashion and explore our collection of premium clothing.
             </p>
@@ -93,7 +92,7 @@ export default function Footer() {
         </div>
 
         <div className="mt-16 pt-8 border-t border-gray-800 text-center text-gray-400">
-          <p>&copy; {new Date().getFullYear()} FASHION. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} TRENDWEAR. All rights reserved.</p>
         </div>
       </div>
     </footer>

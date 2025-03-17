@@ -1,4 +1,3 @@
-import React from 'react';
 import { ArrowLeft } from 'lucide-react';
 import { Order } from '../types';
 
@@ -67,7 +66,7 @@ export function OrdersPage({ orders, onBack }: OrdersPageProps) {
                           <div key={product.productId} className="text-sm text-gray-900">
                             <span className="font-medium">{product.quantity}x</span> {product.productName}
                             <div className="text-xs text-gray-500">
-                              {product.variation.color} / {product.variation.size}
+                              {product.variation.size}
                             </div>
                           </div>
                         ))}

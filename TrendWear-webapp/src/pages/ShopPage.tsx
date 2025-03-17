@@ -2,35 +2,18 @@ import {useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
 import {motion} from 'framer-motion';
 import {ChevronDown, Filter} from 'lucide-react';
-import {FilterState} from '../types';
-import axios from "axios";
+import {FilterState, Product} from '../types';
 import {fetchProducts} from "../api/Product.ts";
-
-// const products = Array.from({ length: 12 }, (_, i) => ({
-//   id: i + 1,
-//   name: `Fashion Product ${i + 1}`,
-//   price: 99.99 + i * 10,
-//   image: `https://images.unsplash.com/photo-${
-//       i % 4 === 0 ? '1515886657613-9f3515b0c78f' :
-//           i % 4 === 1 ? '1496747611176-843db0904432' :
-//               i % 4 === 2 ? '1552374196-1ab2a1c593e9' :
-//                   '1549298916-b41d501d3772'
-//   }?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80`,
-//   category: i % 3 === 0 ? 'Women' : i % 3 === 1 ? 'Men' : 'Accessories',
-//   colors: ['Black', 'White', 'Blue'],
-//   sizes: ['S', 'M', 'L', 'XL']
-// }));
 
 export default function ShopPage() {
     const [isFilterOpen, setIsFilterOpen] = useState(false);
     const [filters, setFilters] = useState<FilterState>({
-        colors: [],
         sizes: [],
         priceRange: [0, 1000],
         category: ''
     });
 
-    const [products, setProductData] = useState([]);
+    const [products, setProductData] = useState <Product[]>([]);
 
     async function fetchAll() {
         const data = await fetchProducts()
@@ -47,7 +30,6 @@ export default function ShopPage() {
 
 
     const categories = ['All', 'Women', 'Men', 'Accessories'];
-    const availableColors = ['Black', 'White', 'Blue', 'Red', 'Green'];
     const availableSizes = ['XS', 'S', 'M', 'L', 'XL'];
 
     const toggleFilter = (type: keyof FilterState, value: string) => {
@@ -68,14 +50,13 @@ export default function ShopPage() {
 
     const filteredProducts = products.filter(product => {
         if (filters.category && product.category !== filters.category) return false;
-        if (filters.colors.length && !filters.colors.some(color => product.colors.includes(color))) return false;
-        if (filters.sizes.length && !filters.sizes.some(size => product.sizes.includes(size))) return false;
-        if (product.price < filters.priceRange[0] || product.price > filters.priceRange[1]) return false;
+        /*if (filters.sizes.length && !filters.sizes.some(size => product.sizes.includes(size))) return false;
+        if (product.price < filters.priceRange[0] || product.price > filters.priceRange[1]) return false;*/
         return true;
     });
 
     return (
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto px-4 py-32">
             <div className="flex flex-col md:flex-row gap-8">
                 {/* Filters - Desktop */}
                 <div className="hidden md:block w-64 space-y-6">
@@ -94,23 +75,6 @@ export default function ShopPage() {
                                 >
                                     {category}
                                 </button>
-                            ))}
-                        </div>
-                    </div>
-
-                    <div>
-                        <h3 className="font-semibold mb-4">Colors</h3>
-                        <div className="space-y-2">
-                            {availableColors.map(color => (
-                                <label key={color} className="flex items-center space-x-2">
-                                    <input
-                                        type="checkbox"
-                                        checked={filters.colors.includes(color)}
-                                        onChange={() => toggleFilter('colors', color)}
-                                        className="rounded"
-                                    />
-                                    <span>{color}</span>
-                                </label>
                             ))}
                         </div>
                     </div>
@@ -170,7 +134,7 @@ export default function ShopPage() {
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                         {filteredProducts.map(product => (
                             <motion.div
-                                key={product.id}
+                                key={product._id}
                                 whileHover={{y: -10}}
                                 className="group"
                             >

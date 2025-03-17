@@ -1,12 +1,11 @@
-import {useEffect, useState} from 'react';
+import {useState} from 'react';
 import {DashboardStats} from './components/DashboardStats';
 import {ProductForm} from './components/ProductForm';
 import {OrdersPage} from './pages/Orders';
 import {ProductsPage} from './pages/Products';
-import {Product} from './types';
-import {demoOrders, demoProducts} from './data';
+import {demoOrders} from './data';
 import {ClipboardList, Package} from 'lucide-react';
-import toast, {Toaster} from 'react-hot-toast';
+import  {Toaster} from 'react-hot-toast';
 import {fetchProducts} from "./api/product.ts";
 
 function App() {

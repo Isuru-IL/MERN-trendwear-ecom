@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useReducer } from 'react';
+import { createContext, useContext, useReducer } from 'react';
 import { CartItem } from '../types';
 
 interface CartState {
@@ -6,13 +6,13 @@ interface CartState {
 }
 
 type CartAction =
-  | { type: 'ADD_TO_CART'; payload: CartItem }
-  | { type: 'REMOVE_FROM_CART'; payload: number }
-  | { type: 'UPDATE_QUANTITY'; payload: { id: number; quantity: number } }
-  | { type: 'CLEAR_CART' };
+    | { type: 'ADD_TO_CART'; payload: CartItem }
+    | { type: 'REMOVE_FROM_CART'; payload: number }
+    | { type: 'UPDATE_QUANTITY'; payload: { id: number; quantity: number } }
+    | { type: 'CLEAR_CART' };
 
 interface CartContextType extends CartState {
-  
+
   addToCart: (item: CartItem) => void;
   removeFromCart: (id: number) => void;
   updateQuantity: (id: number, quantity: number) => void;
@@ -25,19 +25,19 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
   switch (action.type) {
     case 'ADD_TO_CART': {
       const existingItem = state.cartItems.find(
-        item => 
-          item.id === action.payload.id && 
-          item.selectedSize === action.payload.selectedSize &&
-          item.selectedColor === action.payload.selectedColor
+          item =>
+              item.id === action.payload.id &&
+              item.selectedSize === action.payload.selectedSize
+          // item.selectedColor === action.payload.selectedColor
       );
 
       if (existingItem) {
         return {
           ...state,
           cartItems: state.cartItems.map(item =>
-            item === existingItem
-              ? { ...item, quantity: item.quantity + action.payload.quantity }
-              : item
+              item === existingItem
+                  ? { ...item, quantity: item.quantity + action.payload.quantity }
+                  : item
           ),
         };
       }
@@ -58,9 +58,9 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
       return {
         ...state,
         cartItems: state.cartItems.map(item =>
-          item.id === action.payload.id
-            ? { ...item, quantity: action.payload.quantity }
-            : item
+            item.id === action.payload.id
+                ? { ...item, quantity: action.payload.quantity }
+                : item
         ),
       };
 
@@ -95,17 +95,17 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   return (
-    <CartContext.Provider
-      value={{
-        cartItems: state.cartItems,
-        addToCart,
-        removeFromCart,
-        updateQuantity,
-        clearCart,
-      }}
-    >
-      {children}
-    </CartContext.Provider>
+      <CartContext.Provider
+          value={{
+            cartItems: state.cartItems,
+            addToCart,
+            removeFromCart,
+            updateQuantity,
+            clearCart,
+          }}
+      >
+        {children}
+      </CartContext.Provider>
   );
 };
 

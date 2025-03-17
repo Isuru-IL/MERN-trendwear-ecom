@@ -24,7 +24,6 @@ export interface Product {
 export interface ProductVariation {
   _id?: string;
   id: string;
-  color: string;
   size: string;
   price: number;
   quantity: number;
@@ -33,11 +32,11 @@ export interface ProductVariation {
 export interface CartItem extends Product {
   quantity: number;
   selectedSize: string;
-  selectedColor: string;
+  price:number;
+  id: number;
 }
 
 export interface FilterState {
-  colors: string[];
   sizes: string[];
   priceRange: [number, number];
   category: string;

@@ -6,18 +6,19 @@ export async function fetchProducts(): Promise<Product[]> {
         const response = await axios.get<Product[]>('http://localhost:3003/api/v1/products/all');
         return response.data
     } catch (error) {
+        // @ts-ignore
         console.error('Error fetching products:', error.message);
         return [];
     }
 }
 
-export async function fetchProductsById(id): Promise<Product> {
+export async function fetchProductsById(id:any): Promise<Product> {
     try {
         const response = await axios.get<Product>(`http://localhost:3003/api/v1/products/getProductById/${id}`);
         console.log(response.data)
         return response.data;
     } catch (error) {
         console.error('Error fetching products:', error);
-        return;
+        return {} as Product;
     }
 }

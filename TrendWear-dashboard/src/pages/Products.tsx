@@ -107,8 +107,8 @@ interface ProductsPageProps {
                                     <td className="px-6 py-4">
                                         <div className="text-sm text-gray-900">
                                             {product.variations.map((v) => (
-                                                <div key={v.id} className="mb-1">
-                                                    {v.color} / {v.size} - ${v.price} - {v.quantity}
+                                                <div key={v._id} className="mb-1">
+                                                    {v.size} - ${v.price} - {v.quantity}
                                                 </div>
                                             ))}
                                         </div>
@@ -120,7 +120,7 @@ interface ProductsPageProps {
                                         {product.category}
                                     </td>
                                     <td className="px-6 py-4 text-sm text-gray-500">
-                                        {new Date(product.createdAt).toLocaleDateString()}
+                                        {product.createdAt ? new Date(product.createdAt).toLocaleDateString() : 'N/A'}
                                     </td>
                                     <td className="px-6 py-4 text-right space-x-2">
                                         <button

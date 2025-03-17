@@ -1,4 +1,3 @@
-import React from 'react';
 import {Product} from '../types';
 
 interface ProductTableProps {
@@ -8,6 +7,7 @@ interface ProductTableProps {
 export function ProductTable({products}: ProductTableProps) {
 
 
+    // @ts-ignore
     return (
         <div className="bg-white rounded-lg shadow overflow-hidden">
             <div className="overflow-x-auto">
@@ -30,7 +30,7 @@ export function ProductTable({products}: ProductTableProps) {
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
                     {products.map((product) => (
-                        <tr key={product.id}>
+                        <tr key={product._id}>
                             <td className="px-6 py-4 whitespace-nowrap">
                                 <div className="flex items-center">
                                     <div className="h-10 w-10 flex-shrink-0">
@@ -49,7 +49,7 @@ export function ProductTable({products}: ProductTableProps) {
                             <td className="px-6 py-4 whitespace-nowrap">
                                 <div className="text-sm text-gray-900">
                                     {product.variations.map((v) => (
-                                        <div key={v.id} className="mb-1">
+                                        <div key={v._id} className="mb-1">
                                             {v.color} / {v.size} - ${v.price}
                                         </div>
                                     ))}
@@ -59,7 +59,7 @@ export function ProductTable({products}: ProductTableProps) {
                                 {product.variations.reduce((sum, v) => sum + v.quantity, 0)} units
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                {new Date(product.createdAt).toLocaleDateString()}
+                                {product.createdAt ? new Date(product.createdAt).toLocaleDateString() : 'N/A'}
                             </td>
                         </tr>
                     ))}
