@@ -14,10 +14,9 @@ export function UpdateProductModal({product, onClose}: UpdateProductModalProps) 
     const handleUpdate = async (e: React.FormEvent) => {
         e.preventDefault();
         let _id = product._id;
-        const data = await updateProduct({_id, name, description, images, variations, category})
-        // @ts-ignore
-        let result = JSON.parse(data)
-        console.log(result.data)
+        //const data = await updateProduct({_id, name, description, images, variations, category})
+        await updateProduct({_id, name, description, images, variations, category})
+        clearFields();
         onClose();
     };
 
@@ -75,6 +74,13 @@ export function UpdateProductModal({product, onClose}: UpdateProductModalProps) 
         setVariations(variations.filter((_, i) => i !== index));
     };
 
+    const clearFields=()=>{
+        setName('');
+        setDescription('');
+        setCategory('');
+        setImages([]);
+        setVariations([]);
+    }
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">

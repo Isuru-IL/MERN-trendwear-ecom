@@ -15,11 +15,6 @@ export function ProductForm() {
         [{size: '', price: 0, quantity: 0}]
     );
 
-    // const onDrop = useCallback((acceptedFiles: File[]) => {
-    //   const newImages = acceptedFiles.map(file => URL.createObjectURL(file));
-    //   setImages(prev => [...prev, ...newImages]);
-    // }, []);
-
     const onDrop = useCallback((acceptedFiles: File[]) => {
         const readFiles = acceptedFiles.map((file) => {
             return new Promise<string>((resolve, reject) => {
@@ -63,12 +58,20 @@ export function ProductForm() {
         setVariations(variations.filter((_, i) => i !== index));
     };
 
+    const clearFields=()=>{
+        setName('');
+        setDescription('');
+        setCategory('');
+        setImages([]);
+        setVariations([]);
+    }
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         const data = await saveProduct({name, description, images, variations, category})
-        // @ts-ignore
-        let result = JSON.parse(data)
-        console.log(result.data)
+        if (data){
+            clearFields();
+        }
     };
 
     return (

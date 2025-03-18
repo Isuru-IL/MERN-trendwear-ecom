@@ -1,34 +1,62 @@
-import { ShoppingBag, Package, DollarSign } from 'lucide-react';
+import { ShoppingBag, Package, CheckCircle, DollarSign } from 'lucide-react';
 import {Order, Product} from '../types';
+import {fetchProducts} from "../api/product.ts";
+import {useEffect, useState} from "react";
+import {fetchOrders} from "../api/orders.ts";
 
-interface StatsProps {
-  product: Product[];
-  orders: Order[];
-}
-
-export function DashboardStats({ product, orders }: StatsProps) {
+export function DashboardStats() {
   /*const completedOrders = orders.filter(order => order.status === 'completed');
   const totalRevenue = completedOrders.reduce((sum, order) => sum + order.total, 0);*/
+
+  const [products, setProducts] = useState<Product[]>();
+  const [orders, setOrders] = useState<Order[]>([]);
+
+
+
+  useEffect(() => {
+    fetchAllProduct()
+    fetchAllOrders()
+  }, []);
+
+
+
+  async function fetchAllProduct() {
+    const data = await fetchProducts()
+    if (data){
+      setProducts(data)
+    }
+  }
+
+  async function fetchAllOrders() {
+    const data = await fetchOrders()
+    if (data) {
+      setOrders(data)
+    }
+  }
+
+  const today = new Date().toISOString().split('T')[0];
+  const todayOrders = orders.filter(order => order.createdAt?.startsWith(today));
+
 
   const stats = [
     {
       title: 'Total Products',
-      value: product.length,
+      value: products?.length ? products.length : <div className="w-4 h-4 border-2 border-gray-300 border-t-transparent rounded-full animate-spin"></div>,
       icon: ShoppingBag,
       color: 'bg-blue-500'
     },
     {
       title: 'Total Orders',
-      value: orders.length,
+      value: orders?.length ? orders.length : <div className="w-4 h-4 border-2 border-gray-300 border-t-transparent rounded-full animate-spin"></div>,
       icon: Package,
       color: 'bg-green-500'
     },
-    /*{
-      title: 'Completed Orders',
-      value: completedOrders.length,
+    {
+      title: 'Orders Today',
+      value: todayOrders.length ? todayOrders.length : 0,
       icon: CheckCircle,
       color: 'bg-purple-500'
-    },*/
+    },
     {
       title: 'Total Revenue',
       value: new Intl.NumberFormat('en-LK', {

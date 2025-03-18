@@ -76,7 +76,8 @@ const AuthController = {
 
             res.status(200).json({
                 message: 'Login successful! Welcome back.',
-                token: token
+                token: token,
+                user: user
             });
         } catch (error) {
             res.status(500).json({ message: 'An error occurred during login. Please try again later.' });

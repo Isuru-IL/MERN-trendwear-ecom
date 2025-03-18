@@ -11,6 +11,7 @@ export default function HomePage() {
     async function fetchAll() {
         const data = await fetchProducts()
         if (data){
+            // @ts-ignore
             setProductData(data)
         }
     }
