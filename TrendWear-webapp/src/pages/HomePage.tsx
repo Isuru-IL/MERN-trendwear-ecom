@@ -60,7 +60,7 @@ export default function HomePage() {
           <section className="container mx-auto px-4">
               <h2 className="text-3xl font-bold mb-8 text-center">Shop by Category</h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                  {['Women', 'Men', 'Accessories'].map((category) => (
+                  {['Women', 'Men', 'Kids'].map((category) => (
                       <motion.div
                           key={category}
                           whileHover={{scale: 1.03}}
@@ -72,7 +72,7 @@ export default function HomePage() {
                                   backgroundImage: `url(https://images.unsplash.com/photo-${
                                       category === 'Women' ? '1487412720507-e7ab37603c6f' :
                                           category === 'Men' ? '1492562080023-ab3db95bfbce' :
-                                              '1512163143273-bde0e3cc7407'
+                                              '1622290291468-a28f7a7dc6a8'
                                   }?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80)`
                               }}
                           />

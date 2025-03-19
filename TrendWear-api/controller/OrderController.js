@@ -14,7 +14,7 @@ const OrderController = {
 
     getAllOrders: async function (req, res, next) {
         try {
-            const orders = await Order.find().populate("products");
+            const orders = await Order.find().populate("products").sort({ createdAt: -1 });
             res.status(200).json(orders);
         } catch (error) {
             res.status(500).json({error: error.message});

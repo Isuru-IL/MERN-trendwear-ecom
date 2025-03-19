@@ -145,7 +145,7 @@ export function UpdateProductModal({product, onClose}: UpdateProductModalProps) 
                                     <option value="">Select a category</option>
                                     <option value="Men">Men</option>
                                     <option value="Women">Women</option>
-                                    <option value="Accessories">Accessories</option>
+                                    <option value="Kids">Kids</option>
                                 </select>
                             </div>
 

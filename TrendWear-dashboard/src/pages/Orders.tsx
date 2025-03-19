@@ -127,7 +127,7 @@ export function OrdersPage({ onBack }: OrdersPageProps) {
                         </td>
                         <td className="px-6 py-4">
                           <div className="text-sm font-medium text-gray-900">
-                            LKR {order.totalPrice.toFixed(2)}
+                            $ {order.totalPrice.toFixed(2)}
                           </div>
                         </td>
 

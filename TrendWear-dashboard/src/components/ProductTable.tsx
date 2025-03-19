@@ -50,7 +50,7 @@ export function ProductTable({products}: ProductTableProps) {
                                 <div className="text-sm text-gray-900">
                                     {product.variations.map((v) => (
                                         <div key={v._id} className="mb-1">
-                                            {v.color} / {v.size} - ${v.price}
+                                            {v.size} / ${v.price}
                                         </div>
                                     ))}
                                 </div>

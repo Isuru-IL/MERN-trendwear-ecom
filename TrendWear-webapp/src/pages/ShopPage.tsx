@@ -30,7 +30,7 @@ export default function ShopPage() {
     }, []);
 
 
-    const categories = ['All', 'Women', 'Men', 'Accessories'];
+    const categories = ['All', 'Women', 'Men', 'Kids'];
     /*const availableSizes = ['XS', 'S', 'M', 'L', 'XL'];*/
 
     const toggleFilter = (type: keyof FilterState, value: string) => {

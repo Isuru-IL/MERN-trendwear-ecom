@@ -59,9 +59,9 @@ export function DashboardStats() {
     },
     {
       title: 'Total Revenue',
-      value: new Intl.NumberFormat('en-LK', {
+      value: new Intl.NumberFormat('en-US', {
         style: 'currency',
-        currency: 'LKR',
+        currency: 'USD',
       }).format(orders.reduce((sum, order) => sum + order.totalPrice, 0)),
       icon: DollarSign,
       color: 'bg-yellow-500'
