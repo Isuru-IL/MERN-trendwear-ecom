@@ -1,13 +1,13 @@
 import { useState } from 'react';
-/*import { useNavigate } from 'react-router-dom';*/
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useCart } from '../context/CartContext';
 import {saveOrder} from "../api/Order.ts";
 import toast from "react-hot-toast";
 
 export default function CheckoutPage() {
-  /*const navigate = useNavigate();*/
-  const { cartItems } = useCart();
+  const navigate = useNavigate();
+  const { cartItems, clearCart } = useCart();
 
   const [email, setEmail] = useState('');
   const [firstName, setFirstName] = useState('');
@@ -33,9 +33,9 @@ export default function CheckoutPage() {
     let isSaved = await saveOrder({email, firstName, lastName, address, city, postalCode, products, totalPrice});
 
     if (isSaved) {
-      toast.success('Order placed successfully!');
-      /*clearCart();
-      navigate('/');*/
+      toast.success('Order placed successfully!', {duration: 4000});
+      clearCart();
+      navigate('/', { replace: true });
     }
   };
 

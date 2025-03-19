@@ -9,7 +9,6 @@ import ProductPage from './pages/ProductPage';
 import CartPage from './pages/CartPage';
 import CheckoutPage from './pages/CheckoutPage';
 import AboutPage from './pages/AboutPage';
-import ContactPage from './pages/ContactPage';
 import Login from "./auth/Login.tsx";
 import Register from "./auth/Register.tsx";
 
@@ -27,7 +26,7 @@ function App() {
               <Route path="/cart" element={<CartPage />} />
               <Route path="/checkout" element={<CheckoutPage />} />
               <Route path="/about" element={<AboutPage />} />
-              <Route path="/contact" element={<ContactPage />} />
+              {/*<Route path="/contact" element={<ContactPage />} />*/}
               <Route path="/login" element={<Login/>} />
               <Route path="/register" element={<Register/>} />
             </Routes>

@@ -8,7 +8,7 @@ export default function CartPage() {
   const { cartItems, removeFromCart, updateQuantity } = useCart();
 
   const subtotal = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
-  const shipping = subtotal > 10000 ? 0 : 250;
+  const shipping = subtotal > 1000 ? 0 : 50;
   const total = subtotal + shipping;
 
   if (cartItems.length === 0) {
@@ -78,7 +78,7 @@ export default function CartPage() {
                           <Plus size={16} />
                         </button>
                       </div>
-                      <p className="font-semibold">LKR {(item.price * item.quantity).toFixed(2)}</p>
+                      <p className="font-semibold">$ {(item.price * item.quantity).toFixed(2)}</p>
                     </div>
                   </div>
                 </motion.div>
@@ -91,7 +91,7 @@ export default function CartPage() {
             <div className="space-y-4">
               <div className="flex justify-between">
                 <span>Subtotal</span>
-                <span>LKR {subtotal.toFixed(2)}</span>
+                <span>$ {subtotal.toFixed(2)}</span>
               </div>
               <div className="flex justify-between">
                 <span>Shipping</span>
@@ -100,7 +100,7 @@ export default function CartPage() {
               <div className="border-t pt-4">
                 <div className="flex justify-between font-semibold">
                   <span>Total</span>
-                  <span>LKR {total.toFixed(2)}</span>
+                  <span>$ {total.toFixed(2)}</span>
                 </div>
               </div>
             </div>

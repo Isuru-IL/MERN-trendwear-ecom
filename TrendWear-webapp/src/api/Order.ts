@@ -14,7 +14,7 @@ export const saveOrder = async (Order:Order): Promise<boolean> => {
                 'Authorization': token ? `Bearer ${token}` : ''
             }
         });
-        toast.success(response.data.message)
+        /*toast.success(response.data.message)*/
         return true;
         // return JSON.stringify({ message: response.data.message, data:response.data});
     } catch (error) {

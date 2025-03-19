@@ -31,7 +31,7 @@ export default function ShopPage() {
 
 
     const categories = ['All', 'Women', 'Men', 'Accessories'];
-    const availableSizes = ['XS', 'S', 'M', 'L', 'XL'];
+    /*const availableSizes = ['XS', 'S', 'M', 'L', 'XL'];*/
 
     const toggleFilter = (type: keyof FilterState, value: string) => {
         setFilters(prev => {
@@ -51,8 +51,15 @@ export default function ShopPage() {
 
     const filteredProducts = products.filter(product => {
         if (filters.category && product.category !== filters.category) return false;
-        /*if (filters.sizes.length && !filters.sizes.some(size => product.sizes.includes(size))) return false;
-        if (product.price < filters.priceRange[0] || product.price > filters.priceRange[1]) return false;*/
+        if (
+            filters.sizes.length &&
+            !filters.sizes.some(size =>
+                product.variations.some(variation => variation.size === size)
+            )
+        ) return false;
+
+
+        if (product.variations[0].price < filters.priceRange[0] || product.variations[0].price > filters.priceRange[1]) return false;
         return true;
     });
 
@@ -80,7 +87,7 @@ export default function ShopPage() {
                         </div>
                     </div>
 
-                    <div>
+                    {/*<div>
                         <h3 className="font-semibold mb-4">Sizes</h3>
                         <div className="grid grid-cols-2 gap-2">
                             {availableSizes.map(size => (
@@ -97,7 +104,7 @@ export default function ShopPage() {
                                 </button>
                             ))}
                         </div>
-                    </div>
+                    </div>*/}
 
                     <div>
                         <h3 className="font-semibold mb-4">Price Range</h3>

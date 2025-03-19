@@ -33,7 +33,7 @@ export default function ProductPage() {
 
 
     const [product, setProductData] = useState<Product>();
-    const [recommendedProduct, setRecommendedProductData] = useState<Product[]>();
+    const [recommendedProduct, setRecommendedProductData] = useState<Product[]>([]);
 
 
     //fetch single product
@@ -81,7 +81,7 @@ export default function ProductPage() {
 
         });
 
-        toast.success('Added to cart');
+        toast.success('Added to cart', {duration: 3000});
     };
 
 
@@ -150,7 +150,7 @@ export default function ProductPage() {
                             <h1 className="text-3xl font-bold">{product?.name}</h1>
                             <p className="text-2xl mt-2">
                                 {/*LKR {price === 0 ? product?.variations[0].price.toFixed(2).toLocaleString():price}*/}
-                                LKR {price === '0' ? product?.variations[0].price.toFixed(2) : price}
+                                $ {price === '0' ? product?.variations[0].price.toFixed(2) : price}
                             </p>
                         </div>
 
@@ -219,7 +219,7 @@ export default function ProductPage() {
             <div className="mt-20">
                 <h2 className="text-2xl font-bold mb-8">You May Also Like</h2>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                    {recommendedProduct?.map(product => (
+                    {recommendedProduct.slice(0,4)?.map(product => (
                         <motion.div
                             key={product._id}
                             whileHover={{y: -10}}
@@ -235,7 +235,7 @@ export default function ProductPage() {
                                 </div>
 
                                 <h3 className="font-semibold">{product.name}</h3>
-                                <p className="text-gray-600">LKR {product.variations[0].price}</p>
+                                <p className="text-gray-600">$ {product.variations[0].price}</p>
                             </Link>
 
                         </motion.div>
