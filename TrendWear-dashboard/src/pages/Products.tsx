@@ -2,7 +2,7 @@ import {useEffect, useState} from 'react';
 import {ArrowLeft, Eye, Pencil, Trash2} from 'lucide-react';
 import {Product} from '../types';
 import {UpdateProductModal} from '../components/UpdateProductModal';
-import {Toaster} from 'react-hot-toast';
+import toast, {Toaster} from 'react-hot-toast';
 import {deleteProduct, fetchProducts} from "../api/product.ts";
 import ProductTableSkeleton from "../components/skeleton/ProductTableSkeleton.tsx";
 
@@ -18,9 +18,14 @@ interface ProductsPageProps {
 
     //get all products
      async function fetchAll() {
-         const data = await fetchProducts()
-         if (data){
-             setProducts(data)
+         try {
+             const data = await fetchProducts();
+             if (data) {
+                 setProducts(data);
+             }
+         } catch (error) {
+             console.error('Error fetching products:', error);
+             toast.error('Failed to load products.');
          }
     }
 
@@ -165,6 +170,7 @@ interface ProductsPageProps {
                     onClose={() => {
                         setShowUpdateModal(false);
                         setSelectedProduct(null);
+                        fetchAll();
                     }}
                 />
             )}
